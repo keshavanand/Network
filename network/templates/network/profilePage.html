@@ -1,0 +1,29 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+ <h1 id="username">Username: {{User.username.capitalize}}</h1>
+ <h6>Following: {{Following}} Followers: {{Followers}}</h6>
+ {% if User.username != user.username and user.is_authenticated %}
+    {% if User in user.following.all %}
+          <button><a href="{% url 'unfollow' User.id %}">Unfollow</a></button>
+    {% else %}
+          <button><a href="{% url 'follow' User.id %}">Follow</a></button>    
+    {% endif %}
+ {% endif %}
+{% for post in Posts %}
+<div class="container-fluid p-3 my-3 border">
+    <h6>Posted By: <a href="{% url 'profilePage' post.user.id %}">{{post.user.username.capitalize}}</a> On: {{post.timeStamp}}</h6>
+    <p name="content" id="content-{{ forloop.counter }}">{{post}}</p>
+    {% csrf_token %}
+    <textarea name="editContent" id="editContent-{{ forloop.counter }}" cols="30" rows="10"></textarea>
+    {% if post.user == user and user.is_authenticated %}
+    <button type="button" name="edit" id="edit-{{ forloop.counter }}">Edit Post</button>
+    <button type="button" name="save" id="save-{{ forloop.counter }}">Save</button>
+    {% endif %}
+    <p>Likes: {{post.like}}</p>
+    <button type="button" name="like" id="like-{{ forloop.counter }}">Like</button>
+</div>
+{% endfor %}
+
+{% endblock %}
+

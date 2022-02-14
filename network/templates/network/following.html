@@ -1,0 +1,14 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+   {% for post in Posts %}
+        <div class="container-fluid p-3 my-3 border">
+        <h6>Posted By: <a href="{% url 'profilePage' post.user.id %}">{{post.user.username.capitalize}}</a> On: {{post.timeStamp}}</h6>
+        <p>{{post}}</p>
+        <p>Likes: {{post.like}} Dislikes: {{post.unlike}}</p>
+        <button class="btn btn-primary">Like</button> <button class="btn btn-danger">Dislike</button>
+        </div>
+    {% endfor %}
+
+{% endblock %}
